@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<annotations:AnnotationSpec
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:annotations="http://emop/annotations"
+    xsi:schemaLocation="http://emop/annotations ../../../mop.emf.core/model/annotations.ecore"
+    name="AutoInstantiate"
+    description="Provides annotations to automatically instantiate elements upon resource creation">
+  <annotations
+      xsi:type="annotations:ModelAnnotation">
+    <semanticHooks
+        xsi:type="annotations:JavaCode"
+        className="mop.emf.libraries.AutoInstantiateHook">
+      <execPoint>CREATE_MODEL</execPoint>
+    </semanticHooks>
+  </annotations>
+</annotations:AnnotationSpec>

@@ -1,0 +1,28 @@
+
+Examples
+========
+
+* Compute all subclasses
+* Link models and meta-models
+* Intercept validation
+
+* Prototype modelling
+
+* Implement the type-object pattern => Implicit promotions
+
+Package MOP operations as libraries
+	=> Annotations + an interpreter to instantiate the MOP
+
+* A subset of our MOP is already covered by ENotification framework, but
+  - Not all (e.g., onInstantiate -> different from ADD)
+  - Other facilities: validation, code-gen
+  - We consider also manipulation (e.g., ATL, Epsilon, Xtext)
+  - It provides an homogenous protocolo for interacting with the meta-modelling framework
+  
+For generated meta-models we either to 
+	a) to extends JET templates
+	b) generate an aspect for each class
+
+
+Our implementation using aspects also show that could be
+possible to modularly define the MOP...

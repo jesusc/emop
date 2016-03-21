@@ -1,0 +1,14 @@
+@namespace(uri="http://emop/example/expressions", prefix="emop_expressions")
+package expressions;
+
+abstract class BooleanValue {
+}
+
+@"http://autoinst"(name="true")
+class TrueValue extends BooleanValue {
+}
+
+@"http://autoinst"(name="false")
+class FalseValue extends BooleanValue {
+}
+

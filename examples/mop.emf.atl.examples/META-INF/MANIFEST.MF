@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ATL mop.emf.atl.tests Transformation Runtime Plug-in
+Bundle-SymbolicName: mop.emf.atl.examples
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: mop.emf.atl.tests.Activator
+Bundle-Vendor: Eclipse Modeling Project
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.m2m.atl.engine.emfvm,
+ mop.emf.atl;bundle-version="1.0.0",
+ mop.emf.core,
+ org.eclipse.emf.ecore
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true

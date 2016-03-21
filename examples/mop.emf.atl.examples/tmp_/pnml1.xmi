@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<pnml:PNMLDocument xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pnml="http://master/exercise/PNML" location="http://exercise/myPetriNet">
+  <nets name="aPN">
+    <contents xsi:type="pnml:PlaceElement" id="place1" location="http://exercise/myPetriNet/place1" name="place1"/>
+  </nets>
+</pnml:PNMLDocument>

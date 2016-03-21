@@ -1,0 +1,80 @@
+-- @path PNML=/mop.emf.atl.tests/metamodels/PNML.ecore
+-- @path PetriNet=/mop.emf.atl.tests/metamodels/PetriNet.ecore
+--
+--
+module petrinet2pnml;
+create OUT: PNML from IN: PetriNet;
+
+helper context PetriNet!Arc def: completeName(aPrefix : String) : String  = 
+	aPrefix + self.input.name + '_' + self.output.name; 
+
+helper def : URI : String = 'http://exercise/myPetriNet';
+
+rule PNMLDocument {
+	from p: PetriNet!PetriNet
+	to	doc: PNML!PNMLDocument (
+			location <- 'http://exercise/myPetriNet',
+			nets <- thisModule.createNet(p)
+		)
+}
+
+lazy rule createNet {
+	from
+		p: PetriNet!PetriNet	
+	to 
+		n : PNML!NetElement (
+			name <- p.name,
+			contents <- p.elements->union(p.arcs)
+		)
+}
+
+rule Place2Place {
+	from
+		p: PetriNet!Place
+	to
+		n: PNML!PlaceElement (
+			name <- p.name,
+			id <- p.name,
+			location <- thisModule.URI.concat('/').concat(p.name)
+		)
+}
+
+rule Transition2Transition {
+	from
+		p: PetriNet!Transition
+	to
+		n: PNML!TransitionElement (
+			name <- p.name,
+			id <- p.name,
+			location <- thisModule.URI.concat('/').concat(p.name)
+		)
+}
+
+
+rule Arc2ArcPlaceTransition {
+	from
+		a: PetriNet!Arc ( 
+			a.input.oclIsKindOf(PetriNet!Place) and 
+			a.output.oclIsKindOf(PetriNet!Transition) 
+		)
+	to
+		n: PNML!ArcPlace2Transition (
+			location <- thisModule.URI.concat('/').concat(a.completeName('myPrefix')),
+			source <- a.input,
+			target <- a.output
+		)
+}
+
+rule Arc2ArcTransitionPlace {
+	from
+		a: PetriNet!Arc ( 
+			a.input.oclIsKindOf(PetriNet!Transition) and 
+			a.output.oclIsKindOf(PetriNet!Place) 
+		)
+	to
+		n: PNML!ArcTransition2Place (
+			location <- thisModule.URI.concat('/').concat(a.completeName('anotherPrefix')),
+			source <- a.input,
+			target <- a.output
+		)
+}

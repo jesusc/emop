@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<petrinet:PetriNet
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:petrinet="mop/atl/petrinet"
+    xsi:schemaLocation="mop/atl/petrinet ../metamodels/PetriNet.ecore#/1"
+    location="loc"
+    name="aPN">
+  <elements
+      xsi:type="petrinet:Place"
+      location="l1"
+      name="place1"/>
+</petrinet:PetriNet>

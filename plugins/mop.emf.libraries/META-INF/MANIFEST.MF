@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Example Annotation Libraries
+Bundle-SymbolicName: mop.emf.libraries
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: mop.emf.libraries.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ mop.emf.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: mop.emf.libraries,
+ mop.emf.libraries.autoinst
