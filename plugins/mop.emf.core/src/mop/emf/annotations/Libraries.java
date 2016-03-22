@@ -15,4 +15,8 @@ public class Libraries {
 			}
 		});	
 	}
+	
+	public static void install(GlobalLibrary lib) {
+		lib.process(EMOP.global());
+	}
 }

@@ -1,21 +1,17 @@
 package mop.emf.tests;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.junit.Test;
 
 import SimpleUML.Class;
-import SimpleUML.NamedElement;
+import SimpleUML.Feature;
+import SimpleUML.util.SimpleUMLAdapterFactory;
 
 public class TestEvents {
 
@@ -37,6 +33,8 @@ public class TestEvents {
 				super.notifyChanged(notification);
 				System.out.println(notification.getEventType());
 				System.out.println(notification.getNotifier());
+				System.out.println(notification.getFeature());
+				System.out.println("New value: " + notification.getNewValue());
 //				contentAdapter.setTarget((Notifier) notification.getNotifier());
 			}
 		};
@@ -47,6 +45,9 @@ public class TestEvents {
 		Class person = SimpleUML.SimpleUMLFactory.eINSTANCE.createClass();
 		r.getContents().add(person);
 		
+		Feature fname = SimpleUML.SimpleUMLFactory.eINSTANCE.createFeature();
+		fname.setName("name");
+		person.getFeatures().add(fname);
 		
 //	    Adapter adapter = new AdapterImpl() {
 //	        public void notifyChanged(Notification notification) {

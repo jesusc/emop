@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import mop.emf.core.api.EMOPCreate;
 import mop.emf.core.api.EMOPModelCreate;
 import mop.emf.core.api.EMOPModelLoad;
+import mop.emf.core.api.EMOPModelSave;
 import mop.emf.core.api.EMOPSet;
 
 import org.eclipse.emf.ecore.EClass;
@@ -83,6 +84,11 @@ public abstract class EMOP {
 		return new EMOPModelCreate(uri);
 	}
 
+	public EMOPModelCreate onModelCreate() {
+		return new EMOPModelCreate();
+	}
+
+	
 	/**
 	 * Notifies when a model loaded (resource in EMF terminology is created).
 	 * It does not distinguished the kind of model (meta-model or plain model).
@@ -98,6 +104,14 @@ public abstract class EMOP {
 		return new EMOPModelLoad();
 	}
 
+	/**
+	 * Notifies when a model is persisted.
+	 * 
+	 * @return
+	 */
+	public EMOPModelSave onModelSave() {
+		return new EMOPModelSave();
+	}
 	
 	
 //	public static EMOP object(EObject o) {

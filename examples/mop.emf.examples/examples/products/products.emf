@@ -1,0 +1,15 @@
+@"http://emop/typeobj/package"(name="BookStore", uri="http//test/bookstore")
+@namespace(uri="http://emop/example/products", prefix="emop_products")
+package products;
+
+class Data {
+  val ProductType[*] products;
+}
+
+@"http://emop/typeobj/type"(fid="name")
+class ProductType {
+  attr String[1] name;
+
+  attr double[1] vat;
+}
+

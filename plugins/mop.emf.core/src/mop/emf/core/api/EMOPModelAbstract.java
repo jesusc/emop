@@ -28,6 +28,11 @@ public abstract class EMOPModelAbstract extends EMOPEvent {
 		}		
 	}
 	
+	protected static void dealWith_notify(Resource r, List<ModelLoadCallback> callbacks) {
+		callbacks.forEach(c -> c.accept(r));
+	}
+
+	
 	protected static Stream<EPackage> toPackage(Resource r) {
 		return r.getContents().stream().
 				filter(c -> c instanceof EPackage).

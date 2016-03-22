@@ -5,10 +5,20 @@ Examples
 * Compute all subclasses
 * Link models and meta-models
 * Intercept validation
+* Change the semantics of "set" so that for multivalued features 
+  we don't need to do "get(f).add" which is annoying and requires "an if"
+  in the reflective setting. Could also solve the multithreaded problem?
+  We can synchronize the object...
 
 * Prototype modelling
 
 * Implement the type-object pattern => Implicit promotions
+
+* ATL/MOP to extract dynamic footprints using the ResourceType library.
+
+* AutoAdd, a library to automatically add elements to a given resource.
+  This will be an example of "local library", that is configured for
+  a specific scope.
 
 Package MOP operations as libraries
 	=> Annotations + an interpreter to instantiate the MOP
