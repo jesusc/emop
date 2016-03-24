@@ -59,12 +59,23 @@ public class SimpleUMLFactoryImpl extends EFactoryImpl implements SimpleUMLFacto
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case SimpleUMLPackage.PACKAGE: return createPackage();
 			case SimpleUMLPackage.CLASS: return createClass();
 			case SimpleUMLPackage.NAMED_ELEMENT: return createNamedElement();
 			case SimpleUMLPackage.FEATURE: return createFeature();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SimpleUML.Package createPackage() {
+		PackageImpl package_ = new PackageImpl();
+		return package_;
 	}
 
 	/**

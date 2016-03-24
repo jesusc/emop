@@ -1,0 +1,22 @@
+@namespace(uri="http://mop/emf/test/uml", prefix="uml")
+package SimpleUML;
+
+class Package {
+	val Class[*]#pkg classes;
+}
+
+class Class extends NamedElement {
+  val Feature[*] features;
+  ref Package[1]#classes pkg;
+}
+
+@"http://www.eclipse.org/ocl/examples/OCL"(nameLarge="self.name.size() > 10")
+class NamedElement {
+  attr String name;
+}
+
+class Feature extends NamedElement {
+  attr boolean isMultivalued;
+  ref Class[1] type;
+}
+

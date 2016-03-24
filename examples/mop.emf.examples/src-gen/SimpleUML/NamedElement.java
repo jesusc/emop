@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see SimpleUML.SimpleUMLPackage#getNamedElement()
- * @model
+ * @model annotation="http://www.eclipse.org/ocl/examples/OCL nameLarge='self.name.size() > 10'"
  * @generated
  */
 public interface NamedElement extends EObject {

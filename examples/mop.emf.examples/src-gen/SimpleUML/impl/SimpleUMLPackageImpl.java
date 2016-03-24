@@ -26,6 +26,13 @@ public class SimpleUMLPackageImpl extends EPackageImpl implements SimpleUMLPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass packageEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass classEClass = null;
 
 	/**
@@ -108,6 +115,24 @@ public class SimpleUMLPackageImpl extends EPackageImpl implements SimpleUMLPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPackage() {
+		return packageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPackage_Classes() {
+		return (EReference)packageEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getClass_() {
 		return classEClass;
 	}
@@ -119,6 +144,15 @@ public class SimpleUMLPackageImpl extends EPackageImpl implements SimpleUMLPacka
 	 */
 	public EReference getClass_Features() {
 		return (EReference)classEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClass_Pkg() {
+		return (EReference)classEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -194,8 +228,12 @@ public class SimpleUMLPackageImpl extends EPackageImpl implements SimpleUMLPacka
 		isCreated = true;
 
 		// Create classes and their features
+		packageEClass = createEClass(PACKAGE);
+		createEReference(packageEClass, PACKAGE__CLASSES);
+
 		classEClass = createEClass(CLASS);
 		createEReference(classEClass, CLASS__FEATURES);
+		createEReference(classEClass, CLASS__PKG);
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
@@ -237,8 +275,12 @@ public class SimpleUMLPackageImpl extends EPackageImpl implements SimpleUMLPacka
 		featureEClass.getESuperTypes().add(this.getNamedElement());
 
 		// Initialize classes, features, and operations; add parameters
+		initEClass(packageEClass, SimpleUML.Package.class, "Package", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPackage_Classes(), this.getClass_(), this.getClass_Pkg(), "classes", null, 0, -1, SimpleUML.Package.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(classEClass, SimpleUML.Class.class, "Class", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClass_Features(), this.getFeature(), null, "features", null, 0, -1, SimpleUML.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClass_Pkg(), this.getPackage(), this.getPackage_Classes(), "pkg", null, 1, 1, SimpleUML.Class.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -249,6 +291,26 @@ public class SimpleUMLPackageImpl extends EPackageImpl implements SimpleUMLPacka
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http://www.eclipse.org/ocl/examples/OCL
+		createOCLAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/ocl/examples/OCL</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createOCLAnnotations() {
+		String source = "http://www.eclipse.org/ocl/examples/OCL";	
+		addAnnotation
+		  (namedElementEClass, 
+		   source, 
+		   new String[] {
+			 "nameLarge", "self.name.size() > 10"
+		   });
 	}
 
 } //SimpleUMLPackageImpl

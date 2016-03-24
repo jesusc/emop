@@ -7,6 +7,7 @@ import mop.emf.core.api.EMOPModelCreate;
 import mop.emf.core.api.EMOPModelLoad;
 import mop.emf.core.api.EMOPModelSave;
 import mop.emf.core.api.EMOPSet;
+import mop.emf.core.api.EMOPValidate;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -113,6 +114,12 @@ public abstract class EMOP {
 		return new EMOPModelSave();
 	}
 	
+	/**
+	 * Notifies when objects are validated.
+	 */
+	public EMOPValidate onValidate() {
+		return new EMOPValidate();
+	}
 	
 //	public static EMOP object(EObject o) {
 //		return new EMOPObject();

@@ -3,5 +3,9 @@
 	<aspects>
 		<aspect name="mop.emf.ecore.ExtendResource"/>
 		<aspect name="mop.emf.ecore.ExtendInstantiation"/>
+		<aspect name="mop.emf.ecore.ExtendValidation"/>	
+		<!--
+		<aspect name="org.eclipse.emf.common.util.BasicDiagnosticRemoval"/>	
+		-->
 	</aspects>
 </aspectj>

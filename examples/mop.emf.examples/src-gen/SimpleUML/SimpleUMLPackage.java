@@ -57,14 +57,41 @@ public interface SimpleUMLPackage extends EPackage {
 	SimpleUMLPackage eINSTANCE = SimpleUML.impl.SimpleUMLPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link SimpleUML.impl.ClassImpl <em>Class</em>}' class.
+	 * The meta object id for the '{@link SimpleUML.impl.PackageImpl <em>Package</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see SimpleUML.impl.ClassImpl
-	 * @see SimpleUML.impl.SimpleUMLPackageImpl#getClass_()
+	 * @see SimpleUML.impl.PackageImpl
+	 * @see SimpleUML.impl.SimpleUMLPackageImpl#getPackage()
 	 * @generated
 	 */
-	int CLASS = 0;
+	int PACKAGE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Classes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE__CLASSES = 0;
+
+	/**
+	 * The number of structural features of the '<em>Package</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Package</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link SimpleUML.impl.NamedElementImpl <em>Named Element</em>}' class.
@@ -74,7 +101,7 @@ public interface SimpleUMLPackage extends EPackage {
 	 * @see SimpleUML.impl.SimpleUMLPackageImpl#getNamedElement()
 	 * @generated
 	 */
-	int NAMED_ELEMENT = 1;
+	int NAMED_ELEMENT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -104,6 +131,16 @@ public interface SimpleUMLPackage extends EPackage {
 	int NAMED_ELEMENT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link SimpleUML.impl.ClassImpl <em>Class</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see SimpleUML.impl.ClassImpl
+	 * @see SimpleUML.impl.SimpleUMLPackageImpl#getClass_()
+	 * @generated
+	 */
+	int CLASS = 1;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -122,13 +159,22 @@ public interface SimpleUMLPackage extends EPackage {
 	int CLASS__FEATURES = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Pkg</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS__PKG = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Class</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int CLASS_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Class</em>' class.
@@ -147,7 +193,7 @@ public interface SimpleUMLPackage extends EPackage {
 	 * @see SimpleUML.impl.SimpleUMLPackageImpl#getFeature()
 	 * @generated
 	 */
-	int FEATURE = 2;
+	int FEATURE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -196,6 +242,27 @@ public interface SimpleUMLPackage extends EPackage {
 
 
 	/**
+	 * Returns the meta object for class '{@link SimpleUML.Package <em>Package</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Package</em>'.
+	 * @see SimpleUML.Package
+	 * @generated
+	 */
+	EClass getPackage();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link SimpleUML.Package#getClasses <em>Classes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Classes</em>'.
+	 * @see SimpleUML.Package#getClasses()
+	 * @see #getPackage()
+	 * @generated
+	 */
+	EReference getPackage_Classes();
+
+	/**
 	 * Returns the meta object for class '{@link SimpleUML.Class <em>Class</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -215,6 +282,17 @@ public interface SimpleUMLPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getClass_Features();
+
+	/**
+	 * Returns the meta object for the container reference '{@link SimpleUML.Class#getPkg <em>Pkg</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Pkg</em>'.
+	 * @see SimpleUML.Class#getPkg()
+	 * @see #getClass_()
+	 * @generated
+	 */
+	EReference getClass_Pkg();
 
 	/**
 	 * Returns the meta object for class '{@link SimpleUML.NamedElement <em>Named Element</em>}'.
@@ -293,6 +371,24 @@ public interface SimpleUMLPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
+		 * The meta object literal for the '{@link SimpleUML.impl.PackageImpl <em>Package</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see SimpleUML.impl.PackageImpl
+		 * @see SimpleUML.impl.SimpleUMLPackageImpl#getPackage()
+		 * @generated
+		 */
+		EClass PACKAGE = eINSTANCE.getPackage();
+
+		/**
+		 * The meta object literal for the '<em><b>Classes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PACKAGE__CLASSES = eINSTANCE.getPackage_Classes();
+
+		/**
 		 * The meta object literal for the '{@link SimpleUML.impl.ClassImpl <em>Class</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -309,6 +405,14 @@ public interface SimpleUMLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CLASS__FEATURES = eINSTANCE.getClass_Features();
+
+		/**
+		 * The meta object literal for the '<em><b>Pkg</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASS__PKG = eINSTANCE.getClass_Pkg();
 
 		/**
 		 * The meta object literal for the '{@link SimpleUML.impl.NamedElementImpl <em>Named Element</em>}' class.

@@ -70,6 +70,10 @@ public class SimpleUMLAdapterFactory extends AdapterFactoryImpl {
 	protected SimpleUMLSwitch<Adapter> modelSwitch =
 		new SimpleUMLSwitch<Adapter>() {
 			@Override
+			public Adapter casePackage(SimpleUML.Package object) {
+				return createPackageAdapter();
+			}
+			@Override
 			public Adapter caseClass(SimpleUML.Class object) {
 				return createClassAdapter();
 			}
@@ -100,6 +104,20 @@ public class SimpleUMLAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link SimpleUML.Package <em>Package</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see SimpleUML.Package
+	 * @generated
+	 */
+	public Adapter createPackageAdapter() {
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link SimpleUML.Class <em>Class</em>}'.
