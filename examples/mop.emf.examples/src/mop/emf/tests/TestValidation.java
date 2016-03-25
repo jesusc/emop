@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
 import mop.emf.annotations.Libraries;
 import mop.emf.core.EMOP;
 import mop.emf.ecore.MyBasicDiagnostic;
@@ -41,40 +42,13 @@ public class TestValidation extends TestUtils {
 		Resource model     = rs.createResource(URI.createFileURI("tmp_/simpleUML.xmi"));	
 		
 		EMOP mop = EMOP.global();
-		mop.onValidate().after((obj, chain) -> {
+		mop.onValidate().after((obj, validation) -> {
 			if ( obj instanceof Feature ) {
-				ArrayList<Diagnostic> toBeRemoved = new ArrayList<>();
+				List<Diagnostic> r = validation.getDiagnostics(obj, guiltyElement -> {
+					return guiltyElement instanceof EReference && ((EReference) guiltyElement).getName().equals("type");
+				});
 				
-				BasicDiagnostic bd = ((BasicDiagnostic) chain);
-				for (Diagnostic diagnostic : bd.getChildren()) {
-					// TODO: Provide a wrapper to select the diagnostics of this specific
-					// object
-					if ( diagnostic.getData().size() > 0 && diagnostic.getData().get(0) == obj ) {
-						EObject guiltyElement = (EObject) diagnostic.getData().get(1);
-						if ( guiltyElement instanceof EReference && ((EReference) guiltyElement).getName().equals("type") ) { 
-							// remove the error
-							toBeRemoved.add(diagnostic);
-						}
-					}
-				}
-				
-				try {
-					for (Diagnostic diagnostic : toBeRemoved) {
-						((MyBasicDiagnostic) chain).remove(diagnostic);
-						// m.invoke(bd, diagnostic);
-					}
-
-					// The invocation has to be done reflectively because the weaving is
-					// done at load time (not at compile time).
-					/*Method m = bd.getClass().getMethod("removeDiagnostic", Diagnostic.class);
-					for (Diagnostic diagnostic : toBeRemoved) {
-						// m.invoke(bd, diagnostic);
-					}
-					*/
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				validation.remove(r);
 			}
 		});
 		
@@ -101,10 +75,8 @@ public class TestValidation extends TestUtils {
 		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(person);
 		
 		System.out.println("Result: " + diagnostic);
-//		List<Diagnostic> children = diagnostic.getChildren();
-//		for (Diagnostic diagnostic2 : children) {
-//			System.out.println("Children: " + diagnostic2);
-//		}
+		Assert.assertEquals(0, diagnostic.getChildren().size());
+		Assert.assertTrue(! diagnostic.toString().contains("ERROR"));
 		
 		// Print the resource contents
 		System.out.println("Resource contents");		

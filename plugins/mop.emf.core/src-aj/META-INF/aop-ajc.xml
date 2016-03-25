@@ -8,4 +8,7 @@
 		<aspect name="org.eclipse.emf.common.util.BasicDiagnosticRemoval"/>	
 		-->
 	</aspects>
+	<weaver options="-verbose -showWeaveInfo "> <!-- add -debug to print every class [not] woven  -->
+      
+    </weaver>
 </aspectj>
