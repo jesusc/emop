@@ -20,4 +20,5 @@ Export-Package: mop.emf.annotations,
  mop.emf.annotations.util,
  mop.emf.core,
  mop.emf.core.api,
- mop.emf.ecore
+ mop.emf.ecore,
+ mop.emf.util

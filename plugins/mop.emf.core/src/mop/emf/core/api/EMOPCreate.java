@@ -24,7 +24,7 @@ public class EMOPCreate {
 	// Not clear yet
 	
 	public static void notifyCreation(EObject o) {
-		EMOP.ctx().ifActivated(() -> {		
+		EMOP.ctx().ifActivated(() -> {	
 			if ( callbacks.containsKey(o.eClass())) {
 				callbacks.get(o.eClass()).forEach(c -> c.accept(o));
 			}

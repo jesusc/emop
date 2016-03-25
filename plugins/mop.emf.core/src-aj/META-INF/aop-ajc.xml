@@ -4,11 +4,16 @@
 		<aspect name="mop.emf.ecore.ExtendResource"/>
 		<aspect name="mop.emf.ecore.ExtendInstantiation"/>
 		<aspect name="mop.emf.ecore.ExtendValidation"/>	
+
+		<aspect name="mop.emf.ecore.ExtendEObject"/>	
+		
 		<!--
 		<aspect name="org.eclipse.emf.common.util.BasicDiagnosticRemoval"/>	
 		-->
 	</aspects>
-	<weaver options="-verbose -showWeaveInfo "> <!-- add -debug to print every class [not] woven  -->
+	<!--
+	<weaver options="-verbose -showWeaveInfo "> 
       
     </weaver>
+    -->
 </aspectj>

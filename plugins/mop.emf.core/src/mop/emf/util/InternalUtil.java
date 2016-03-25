@@ -1,6 +1,10 @@
 package mop.emf.util;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 public class InternalUtil {
 	public static Object getField(Object obj, String f) {
@@ -13,4 +17,15 @@ public class InternalUtil {
 			throw new IllegalStateException("Problems getting field " + f);
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public static Object getExtraData(EObject obj, String key, Object defaultValue) {
+		HashMap<Object, Object> data = (HashMap<Object, Object>) getField(obj, "fData");
+		if ( ! data.containsKey(key) ) {
+			data.put(key, defaultValue);
+		}
+		return data.get(key);
+	}
+	
+	
 }
