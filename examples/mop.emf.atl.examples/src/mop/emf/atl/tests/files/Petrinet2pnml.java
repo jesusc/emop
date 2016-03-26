@@ -77,7 +77,6 @@ public class Petrinet2pnml {
 			if (args.length < 2) {
 				System.out.println("Arguments not valid : {IN_model_path, OUT_model_path}.");
 			} else {
-				EMOP.init();
 				Petrinet2pnml runner = new Petrinet2pnml();
 				runner.loadModels(args[0]);
 				runner.doPetrinet2pnml(new NullProgressMonitor());

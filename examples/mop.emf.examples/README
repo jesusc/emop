@@ -10,7 +10,9 @@ Examples
   in the reflective setting. Could also solve the multithreaded problem?
   We can synchronize the object...
 
-* Prototype modelling
+* Association classes, indicated with annotations
+
+* Prototype modelling - The problem is how to allow the user to specify the cloning, we will need a different syntax
 
 * Implement the type-object pattern => Implicit promotions
 

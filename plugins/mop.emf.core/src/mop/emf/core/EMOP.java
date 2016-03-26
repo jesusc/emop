@@ -3,6 +3,7 @@ package mop.emf.core;
 import java.util.function.Consumer;
 
 import mop.emf.core.api.EMOPCreate;
+import mop.emf.core.api.EMOPGenerate;
 import mop.emf.core.api.EMOPModelCreate;
 import mop.emf.core.api.EMOPModelLoad;
 import mop.emf.core.api.EMOPModelSave;
@@ -71,6 +72,10 @@ public abstract class EMOP {
 		return new EMOPCreate(c, callback);
 	}
 
+	public EMOPGenerate onGenerate() {
+		return new EMOPGenerate();
+	}
+	
 	
 	/**
 	 * Notifies when a new model (resource in EMF terminology is created).

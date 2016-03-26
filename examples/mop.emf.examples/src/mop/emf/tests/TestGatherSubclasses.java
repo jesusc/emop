@@ -1,6 +1,7 @@
 package mop.emf.tests;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.plaf.multi.MultiOptionPaneUI;
 
@@ -14,6 +15,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -71,6 +73,14 @@ public class TestGatherSubclasses {
 		Assert.assertEquals(2, ESubTypes.get(ne).size());
 		Assert.assertTrue(ESubTypes.get(ne).contains(cl));
 		Assert.assertTrue(ESubTypes.get(ne).contains(fe));		
+		
+		// Test the invocation delegate
+//		try {
+//			ne.eInvoke(ESubTypes.getESubclassesOp(), null);
+//		} catch (InvocationTargetException e) {
+//			Assert.fail();
+//		}
+		
 	}
 
 }
