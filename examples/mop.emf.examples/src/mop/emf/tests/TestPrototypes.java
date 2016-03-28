@@ -45,7 +45,7 @@ public class TestPrototypes extends TestUtils {
 		
 		Assert.assertEquals(-1, getField(redCubeBelow, "y"));
 		Assert.assertEquals( 1, getField(redCubeBelow, "x"));
-		Assert.assertEquals("red", getField(redCubeBelow, "red"));
+		Assert.assertEquals("red", getField(redCubeBelow, "color"));
 		
 		// May need to add annotations to have a way to save references between clones
 		

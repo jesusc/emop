@@ -3,6 +3,7 @@ package mop.emf.ecore;
 import java.util.HashMap;
 import java.util.Map;
 
+import mop.emf.core.api.EMOPGet;
 import mop.emf.core.api.EMOPValidate;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -88,9 +89,13 @@ public aspect ExtendEObject {
 	Object around(EObject obj, EStructuralFeature f) :
 		execution(Object EObject.eGet(EStructuralFeature)) && this(obj) && args(f) {
 		
-		System.out.println("Setting " + f);
-		Object r = proceed(obj, f);
-		return r;
+		EMOPGet.notify_beforeEGet(obj, f);
+		Object value = proceed(obj, f);
+		Object result = EMOPGet.notify_aroundEGet(obj, f, value);
+		// TODO: Pass the old value as a closure to compute it lazily,
+		// only if needed
+		// EMOPGet.notify_afterEGet(obj, f, result);		
+		return result;
 	}
 	
 	

@@ -40,4 +40,17 @@ public class InternalUtil {
 		return data.get(key);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static Object getExtraData(EObject obj, String key) {
+		HashMap<Object, Object> data = (HashMap<Object, Object>) getField(obj, "fData");
+		return data.get(key);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void setExtraData(EObject obj, String key, Object value) {
+		HashMap<Object, Object> data = (HashMap<Object, Object>) getField(obj, "fData");
+		data.put(key, value);
+	}
+	
+	
 }

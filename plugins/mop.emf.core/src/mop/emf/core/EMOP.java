@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import mop.emf.core.api.EMOPCreate;
 import mop.emf.core.api.EMOPGenerate;
+import mop.emf.core.api.EMOPGet;
 import mop.emf.core.api.EMOPModelCreate;
 import mop.emf.core.api.EMOPModelLoad;
 import mop.emf.core.api.EMOPModelSave;
@@ -70,6 +71,10 @@ public abstract class EMOP {
 
 	public EMOPCreate onInstantiate(EClass c, Consumer<EObject> callback) {
 		return new EMOPCreate(c, callback);
+	}
+
+	public EMOPGet onGet() {
+		return new EMOPGet();
 	}
 
 	public EMOPGenerate onGenerate() {
