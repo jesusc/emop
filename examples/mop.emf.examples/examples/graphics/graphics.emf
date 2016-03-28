@@ -1,0 +1,23 @@
+@namespace(uri="http://mop/emf/test/graphical_modelling", prefix="graphics")
+package graphics;
+
+class GraphicalModel {
+	attr String[0..1] name;
+	val GraphicalObject[*] objects;
+}
+
+abstract class GraphicalObject {
+   attr int[1] x = 0;
+   attr int[1] y = 0;
+   attr int[1] z = 0;
+   
+   attr String[0..1] color;
+}
+
+class Cube extends GraphicalObject {
+   attr int[1] length;
+}
+
+class Sphere extends GraphicalObject {
+  attr int[1] radius;
+}

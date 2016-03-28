@@ -43,18 +43,6 @@ public class TestTypeObject extends TestUtils {
 		model.save(null);
 	}
 
-	@SuppressWarnings("unchecked")
-	private static void setField(EObject receptor, String fname, Object value) {
-		EStructuralFeature f = receptor.eClass().getEStructuralFeature(fname);
-		if ( f == null )
-			throw new IllegalStateException("No feature " + fname);
-		
-		if ( f.isMany() ) {
-			((EList<Object>) receptor.eGet(f)).add(value);
-		} else {
-			receptor.eSet(f, value);
-		}			
-	}
 
 	
 }

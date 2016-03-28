@@ -8,6 +8,7 @@ import mop.emf.core.api.EMOPValidate;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 
@@ -81,5 +82,17 @@ public aspect ExtendEObject {
   boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context);
   
 	 */
+
+	
+	// eGet
+	Object around(EObject obj, EStructuralFeature f) :
+		execution(Object EObject.eGet(EStructuralFeature)) && this(obj) && args(f) {
+		
+		System.out.println("Setting " + f);
+		Object r = proceed(obj, f);
+		return r;
+	}
+	
+	
 	
 }
