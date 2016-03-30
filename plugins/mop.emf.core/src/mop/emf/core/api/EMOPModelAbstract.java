@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 public abstract class EMOPModelAbstract extends EMOPEvent {
-	protected static void dealWith_notifyAfter_createResourceUsingRS(Resource r, HashMap<String, List<ModelLoadCallback_RS>> afterCallbacks_RS) {
+	protected static void dealWith_notify_operationOnResourceUsingRS(Resource r, HashMap<String, List<ModelLoadCallback_RS>> afterCallbacks_RS) {
 		if ( EMOP.ctx().isActivated() ) {
 			if ( r.getResourceSet() != null ) {
 				r.getResourceSet().getResources().stream().

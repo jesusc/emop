@@ -1,0 +1,49 @@
+@namespace(
+	uri="http://mop/emf/example/xtext/exp_autoinst",
+	prefix="exp_autoinst")
+package exp_autoinst;
+
+
+class Module {
+    attr String[1] name;
+	val Expression[*] expressions;	
+	val Value[*] declaredValues;
+	// Where to put the True/False Value?	
+}
+
+abstract class Expression {
+    @"http://emop/delay_validation"(level="2")
+    ref Type[1] type;
+}
+
+class Literal extends Expression {
+	ref Value[1] value;
+}
+
+class FunctionCall extends Expression {
+	attr String[1] name;
+	val Expression[*] arguments;
+}
+
+abstract class Value {
+	attr String[1] name;
+}
+
+abstract class BooleanValue extends Value { }
+
+@"http://emop/cardinality"(max="1",check="runtime")
+@"http://autoinst"(_name="true", set="Module.declaredValues")
+class TrueValue extends BooleanValue { } 
+
+@"http://emop/cardinality"(max="1",check="runtime")
+@"http://autoinst"(_name="false", set="Module.declaredValues")
+class FalseValue extends BooleanValue { } 
+
+/** Types **/
+abstract class Type {
+	
+}
+
+class BooleanType extends Type {
+	
+}

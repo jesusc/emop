@@ -1,0 +1,41 @@
+grammar mop.example.xtext.ExpAutoInst with org.eclipse.xtext.common.Terminals
+
+import "platform:/resource/mop.example.xtext.autoinst/model/exp_autoinst.ecore"
+
+Module:
+	'program' name=ID
+	
+	declaredValues+=Value*
+	expressions+=Expression+
+	
+	;
+	
+Expression returns Expression:
+	Literal
+	;
+
+Literal returns Literal:
+    value=[Value|QID]
+;
+
+Value:
+	BooleanValue
+;
+
+BooleanValue:
+	TrueValue | FalseValue
+;
+
+TrueValue returns TrueValue:
+	{TrueValue}
+	"T" name=ID
+;
+
+FalseValue returns FalseValue:
+	{FalseValue}
+	"F" name=ID
+;
+
+QID :
+	(ID '.')? ID
+;

@@ -52,7 +52,7 @@ public class EMOPModelCreate extends EMOPModelAbstract {
 	//
 	
 	public static void notifyAfter_createResourceUsingRS(Resource r) {
-		dealWith_notifyAfter_createResourceUsingRS(r, afterCallbacks_RS);
+		dealWith_notify_operationOnResourceUsingRS(r, afterCallbacks_RS);
 		dealWith_notify(r, afterCallbacks);
 	}
 	

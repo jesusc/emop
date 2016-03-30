@@ -1,5 +1,7 @@
 package mop.emf.libraries.autoinst;
 
+import java.util.Collection;
+
 import mop.emf.annotations.MetamodelLibrary;
 import mop.emf.core.EMOP;
 
@@ -16,6 +18,15 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class AutoInstLibrary extends MetamodelLibrary {
 	public static String CLASS_ANN_URI = "http://autoinst";
+	private String fileExtension;
+	
+	
+	public AutoInstLibrary() {
+	}
+	
+	public AutoInstLibrary(String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
 	
 	@Override
 	public void process(Resource metamodel) {
@@ -27,8 +38,36 @@ public class AutoInstLibrary extends MetamodelLibrary {
 				System.err.println("Annotation only for Eclass");
 				return;
 			}
-			
+
 			EClass c = (EClass) m;
+			
+			// For annotations with "set"
+			String field = ann.getDetails().get("set");
+			if ( field != null ) {
+				String[] parts = field.split("\\.");
+				EClass container = (EClass) c.getEPackage().getEClassifier(parts[0]);
+				EStructuralFeature feature = container.getEStructuralFeature(parts[1]);
+				
+				
+				emop.onInstantiate(container, (obj) -> {
+					EObject newInstance = EcoreUtil.create(c);
+					setFeatures(ann, c, newInstance);
+
+					if ( feature.isMany() ) {
+						((Collection<EObject>) obj.eGet(feature)).add(newInstance);
+						System.out.println(((Collection<EObject>) obj.eGet(feature)));
+						System.out.println(newInstance);
+					} else {
+						obj.eSet(feature, newInstance);
+					}
+					
+					// Need to indicate that this has alredy been set
+				});
+				return;
+			}
+			
+			
+			// For annotations whose new instances will go to the resource directly
 			emop.onModelCreate(pkg.getNsURI()).
 				after((rs, p, r) -> {					
 					EObject obj = EcoreUtil.create(c);
@@ -36,6 +75,19 @@ public class AutoInstLibrary extends MetamodelLibrary {
 					
 					setFeatures(ann, c, obj);
 				});
+			
+			emop.onModelLoad().
+			filter(r -> fileExtension == null ? true : r.getURI().fileExtension().equals(fileExtension) ).
+			before(r -> {	
+				System.out.println(r);
+				System.out.println(r.getResourceSet());
+				System.out.println(r.getResourceSet().getResources());
+				
+				EObject obj = EcoreUtil.create(c);
+				r.getContents().add(obj);
+				
+				setFeatures(ann, c, obj);
+			});
 		});
 	}
 

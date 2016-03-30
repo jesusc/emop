@@ -22,6 +22,7 @@ Export-Package: mop.emf.annotations,
  mop.emf.annotations.util,
  mop.emf.core,
  mop.emf.core.api,
- mop.emf.ecore;aspects="ExtendModelGenerator",
+ mop.emf.core.functional,
+ mop.emf.ecore;aspects="ExtendModelGenerator,ExtendResource,ExtendEObject,ExtendInstantiation,ExtendValidation",
  mop.emf.util
-Eclipse-SupplementBundle: org.eclipse.emf.codegen.ui, org.eclipse.emf.codegen.ecore.ui
+Eclipse-SupplementBundle: org.eclipse.emf.codegen.ui, org.eclipse.emf.codegen.ecore.ui, org.eclipse.emf.ecore, org.eclipse.emf.common

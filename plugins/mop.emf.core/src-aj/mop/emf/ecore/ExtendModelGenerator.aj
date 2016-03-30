@@ -62,7 +62,7 @@ public aspect ExtendModelGenerator {
 	
 		@SuppressWarnings("unchecked")
 		List<Object[]> args = (List<Object[]>) InternalUtil.getField(op, "ext_GeneratorAndArgumentsList");
-		
+		System.out.println("Executing EMF's generator...");
 		EMOPGenerate.notify_beforeGenerate(args, progressMonitor);
 		proceed(op, progressMonitor);
 		EMOPGenerate.notify_afterGenerate(args, progressMonitor);

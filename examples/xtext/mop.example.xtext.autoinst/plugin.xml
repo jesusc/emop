@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated exp_autoinst -->
+      <package
+            uri="http://mop/emf/example/xtext/exp_autoinst"
+            class="exp_autoinst.Exp_autoinstPackage"
+            genModel="model/exp_autoinst.genmodel"/>
+   </extension>
+
+</plugin>

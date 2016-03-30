@@ -115,6 +115,10 @@ public abstract class EMOP {
 		return new EMOPModelLoad();
 	}
 
+	public EMOPModelLoad onModelLoad(String uri) {
+		return new EMOPModelLoad(uri);
+	}
+
 	/**
 	 * Notifies when a model is persisted.
 	 * 

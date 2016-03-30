@@ -5,13 +5,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
+import mop.emf.core.EMOP;
 import mop.emf.core.api.EMOPModelCreate;
 import mop.emf.core.api.EMOPModelLoad;
 import mop.emf.core.api.EMOPModelSave;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.emf.ecore.plugin.RegistryReader;
 
 public aspect ExtendResource {
 	
@@ -40,7 +44,7 @@ public aspect ExtendResource {
 	Resource around(URI uri, boolean loadOnDemand) : getResourceUsingRS(uri, loadOnDemand) {
 		// TODO: call before callbacks
 		Resource r = proceed(uri, loadOnDemand);
-		EMOPModelLoad.notifyAfter_createResourceUsingRS(r);
+		EMOPModelLoad.notifyAfter_loadResourceUsingRS(r);
 		return r;
 	}
 	
@@ -48,6 +52,17 @@ public aspect ExtendResource {
 		EMOPModelLoad.notifyBefore(r);
 	}
 
+	pointcut loadGeneratedPackage(EPackage.Descriptor receptor) : 
+		execution(RegistryReader.EPackageDescriptor.new(IConfigurationElement, String)) && this(receptor); // && args(element, attributeName) 
+		
+	// This does not make much sense, since packages will be loaded before the MOP is explicitly activated...
+	after(EPackage.Descriptor receptor) : loadGeneratedPackage(receptor) {
+		if ( EMOP.ctx().isActivated() ) {
+			// Get the EPackage since the information is loaded in the constructor
+			EMOPModelLoad.notifyAfter( receptor.getEPackage().eResource() );
+		}
+	}
+	
 
 	// save
 	
