@@ -44,7 +44,8 @@ public aspect ExtendResource {
 	Resource around(URI uri, boolean loadOnDemand) : getResourceUsingRS(uri, loadOnDemand) {
 		// TODO: call before callbacks
 		Resource r = proceed(uri, loadOnDemand);
-		EMOPModelLoad.notifyAfter_loadResourceUsingRS(r);
+		if ( r != null )
+			EMOPModelLoad.notifyAfter_loadResourceUsingRS(r);
 		return r;
 	}
 	

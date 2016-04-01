@@ -10,7 +10,7 @@ public class Libraries {
 
 		mop.onModelLoad().after(r -> {
 			// I could add some filtering condition to onModelLoad...
-			if ( r.getContents().get(0) instanceof EPackage ) {
+			if ( r.getContents().size() > 0 && r.getContents().get(0) instanceof EPackage ) {
 				lib.process(r);
 			}
 		});	

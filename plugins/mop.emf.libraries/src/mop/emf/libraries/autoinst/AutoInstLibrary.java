@@ -32,7 +32,7 @@ public class AutoInstLibrary extends MetamodelLibrary {
 	public void process(Resource metamodel) {
 		EMOP emop = EMOP.global();
 		EPackage pkg = (EPackage) metamodel.getContents().get(0);
-		
+		System.out.println("Autoinst: " + pkg.getName());
 		extractEAnnotations(metamodel, "http://autoinst", (m, ann) -> {
 			if ( ! ( m instanceof EClass) ) {
 				System.err.println("Annotation only for Eclass");
@@ -55,8 +55,9 @@ public class AutoInstLibrary extends MetamodelLibrary {
 
 					if ( feature.isMany() ) {
 						((Collection<EObject>) obj.eGet(feature)).add(newInstance);
-						System.out.println(((Collection<EObject>) obj.eGet(feature)));
-						System.out.println(newInstance);
+
+						// System.out.println(obj + " has " + ((Collection<EObject>) obj.eGet(feature)));
+						// System.out.println(newInstance);
 					} else {
 						obj.eSet(feature, newInstance);
 					}

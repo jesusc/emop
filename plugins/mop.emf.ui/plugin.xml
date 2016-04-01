@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="mop.emf.ui.installLibrary" name="MOP Library Installation" schema="schema/mop.emf.ui.installLibrary.exsd"/>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="EMF MOP"
+            id="mop.emf.ui">
+      </category>
+      <view
+            name="Installed Libraries"
+            icon="icons/mop_16x16.png"
+            category="mop.emf.ui"
+            class="mop.emf.ui.views.InstalledLibrariesView"
+            id="mop.emf.ui.views.InstalledLibrariesView">
+      </view>
+   </extension>
+   <extension
+         point="mop.emf.ui.installLibrary">
+      <Library
+            implementation="mop.emf.libraries.typeobject.TypeObjectLibrary"
+            name="Type object pattern using promotions">
+      </Library>
+   </extension>
+   <extension
+         point="mop.emf.ui.installLibrary">
+      <Library
+            implementation="mop.emf.libraries.resourcetype.ResourceType"
+            name="Resource meta-model (links between EMF Resources)">
+      </Library>
+   </extension>
+   <extension
+         point="mop.emf.ui.installLibrary">
+      <Library
+            implementation="mop.emf.libraries.autoinst.AutoInstLibrary"
+            name="Automatic Instantiation through annotations">
+      </Library>
+   </extension>
+
+</plugin>

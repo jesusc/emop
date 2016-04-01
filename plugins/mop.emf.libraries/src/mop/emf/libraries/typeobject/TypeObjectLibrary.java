@@ -59,6 +59,8 @@ public class TypeObjectLibrary extends GlobalLibrary {
 	}
 
 	public void checkAnnotations(Resource r) {
+		System.out.println("Checking on " + r);
+		
 		// Which is the meta-model? We use the ResourceType library
 		Metamodel m = ModelIndex.instance().getMetamodelOf(r);
 		if ( m == null ) {
@@ -66,6 +68,30 @@ public class TypeObjectLibrary extends GlobalLibrary {
 			return;
 		}
 		
+		if ( m.getPackages().size() > 1 ) 
+			throw new UnsupportedOperationException("Promotions with more than one meta-model not supported");
+		if ( m.getPackages().isEmpty() ) {
+			// It is likely that the model is just empty
+			// (or the ResourceType library has not worked...) 
+			return;
+		}		
+		
+		EPackage pkg = m.getPackages().get(0);
+		EAnnotation ann = extractAnnotation(pkg, TYPE_PKG_ANN);
+		if ( ann == null ) {
+			// It is not annotated
+			return;
+		}
+
+		String name = ann.getDetails().get("name");		
+		String uri  = ann.getDetails().get("uri");
+		String prefix = "prefix_" + name;
+		
+		EPackage pkgInstance = EcoreFactory.eINSTANCE.createEPackage();
+		pkgInstance.setName(name);
+		pkgInstance.setNsURI(uri);
+		pkgInstance.setNsPrefix(prefix);
+
 		ArrayList<EObject> typeObjects = new ArrayList<EObject>();
 		TreeIterator<EObject> it = r.getAllContents();
 		while ( it.hasNext() ) {
@@ -75,27 +101,7 @@ public class TypeObjectLibrary extends GlobalLibrary {
 				typeObjects.add(o);
 			});
 		}
-
-		if ( m.getPackages().size() > 1 ) 
-			throw new UnsupportedOperationException("Promotions with more than one meta-model not supported");
-		if ( m.getPackages().isEmpty() ) {
-			// It is likely that the model is just empty
-			// (or the ResourceType library has not worked...) 
-			return;
-		}
 		
-		
-		EPackage pkg = m.getPackages().get(0);
-		EAnnotation ann = extractAnnotation(pkg, TYPE_PKG_ANN);
-		String name = ann.getDetails().get("name");		
-		String uri  = ann.getDetails().get("uri");
-		String prefix = "prefix_" + name;
-		
-		EPackage pkgInstance = EcoreFactory.eINSTANCE.createEPackage();
-		pkgInstance.setName(name);
-		pkgInstance.setNsURI(uri);
-		pkgInstance.setNsPrefix(prefix);
-				
 		// Create the meta-classes
 		for (EObject to : typeObjects) {
 			EAnnotation toAnn  = extractAnnotation(to.eClass(), TYPE_ANN);
@@ -108,10 +114,12 @@ public class TypeObjectLibrary extends GlobalLibrary {
 			pkgInstance.getEClassifiers().add(classInstance);
 		}
 		
-		String metamodelFile = r.getURI().toFileString() + ".ecore";
-		Resource newResource = new EcoreResourceFactoryImpl().createResource(URI.createFileURI(metamodelFile));
+		URI metamodelURI = r.getURI().appendFileExtension(".ecore");
+		Resource newResource = new EcoreResourceFactoryImpl().createResource(metamodelURI);
 		newResource.getContents().add(pkgInstance);
 		try {
+			// This would be good moment to deactivate the onSave event, to avoid entering here again
+			// (even though it this case it has no implication).
 			newResource.save(null);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,0 +1,19 @@
+
+How to configure a new Eclipse instance:
+
+http://www.eclipse.org/equinox/incubator/aspects/equinox-aspects-quick-start.php
+
+
+
+
+EMF has a generative facet, the MOP may include hooks for this. They could
+be implemented using AspectJ.
+
+  * preGenerate, postGenerate : useful for instance for Git-based incremental evolution  
+  
+
+LINKS:
+
+* About EMF commands
+  https://nirmalsasidharan.wordpress.com/2011/05/25/10-common-emf-mistakes/
+  http://eclipsesource.com/blogs/tutorials/emf-tutorial/

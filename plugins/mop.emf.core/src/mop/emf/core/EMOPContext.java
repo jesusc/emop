@@ -16,13 +16,13 @@ public class EMOPContext {
 	}
 	
 	public void ifActivated(EmptyFunction f) {
-		if ( activated ) {
+		if ( isActivated() ) {
 			f.exec();
 		}
 	}
 
 	public boolean isActivated() {
-		return activated;
+		return EMOP.isInitialized && activated;
 	}
 
 

@@ -78,10 +78,14 @@ public class EMOPModelLoad extends EMOPModelAbstract {
 		if ( ! filter.apply(r) )
 			return;
 
-		afterCallbacks.forEach(c -> c.accept(r));
+		copy(afterCallbacks).forEach(c -> c.accept(r));
 		if ( r.getResourceSet() != null ) {
 			dealWith_notify_operationOnResourceUsingRS(r, afterCallbacks_RS);
 		}
+	}
+
+	private static List<ModelLoadCallback> copy(List<ModelLoadCallback> cs) {
+		return new ArrayList<>(cs);
 	}
 	
 }

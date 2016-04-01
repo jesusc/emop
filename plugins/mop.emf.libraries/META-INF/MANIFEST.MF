@@ -12,6 +12,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: mop.emf.libraries,
  mop.emf.libraries.autoinst,
+ mop.emf.libraries.delayvalidation,
  mop.emf.libraries.esubtypes,
  mop.emf.libraries.proto,
  mop.emf.libraries.resourcetype,

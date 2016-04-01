@@ -12,6 +12,8 @@ Examples
 
 * Association classes, indicated with annotations
 
+* Automatic registering of meta-models upon saving...
+
 * Prototype modelling - The problem is how to allow the user to specify the cloning, we will need a different syntax
 
 * Implement the type-object pattern => Implicit promotions

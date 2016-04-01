@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 
 public aspect ExtendInstantiation {
 	
@@ -22,10 +23,25 @@ public aspect ExtendInstantiation {
 //		proceed(o); 	
 
 	after(BasicEObjectImpl o) : instantiateEObject(o) {
-		if ( ! EMOP.isInitialized ) {
+		// Dynamic objects have Eclass == null
+		if ( ! EMOP.isInitialized || o.eClass() == null ) { 
 			return;
 		}
 		EMOPCreate.notifyCreation(o);
 	}
+	
+	pointcut instantiateEObject_dynamic(DynamicEObjectImpl o) :
+		execution ( DynamicEObjectImpl.new(EClass) ) 
+		&& !within(org.eclipse.emf.ecore.EPackage) && target(o);
+	
+	
+	after(BasicEObjectImpl o) : instantiateEObject_dynamic(o) {
+		if ( ! EMOP.isInitialized ) { 
+			return;
+		}
+		EMOPCreate.notifyCreation(o);
+	}
+
+	
 	
 }

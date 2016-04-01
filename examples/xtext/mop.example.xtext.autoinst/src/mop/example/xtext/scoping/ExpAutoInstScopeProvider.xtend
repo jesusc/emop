@@ -3,6 +3,13 @@
  */
 package mop.example.xtext.scoping
 
+import org.eclipse.emf.ecore.EReference
+import exp_autoinst.Literal
+import exp_autoinst.Exp_autoinstPackage
+import exp_autoinst.Module
+import org.eclipse.xtext.scoping.Scopes
+import org.eclipse.xtext.EcoreUtil2
+
 /**
  * This class contains custom scoping description.
  * 
@@ -11,5 +18,14 @@ package mop.example.xtext.scoping
  *
  */
 class ExpAutoInstScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider {
+
+//	def scope_Literal_value(Literal ctx, EReference ref) {	
+//		if ( ref == Exp_autoinstPackage.Literals.LITERAL__VALUE ) {
+//			val rootElement = EcoreUtil2.getRootContainer(ctx) as Module;
+//			System.out.println("At scope: " + rootElement)
+//			return Scopes.scopeFor(rootElement.getDeclaredValues());			
+//		}
+//		return null;
+//	}
 
 }

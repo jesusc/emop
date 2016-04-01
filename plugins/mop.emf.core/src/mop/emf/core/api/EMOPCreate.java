@@ -24,11 +24,16 @@ public class EMOPCreate {
 	// Not clear yet
 	
 	public static void notifyCreation(EObject o) {
-		EMOP.ctx().ifActivated(() -> {	
-			if ( callbacks.containsKey(o.eClass())) {
-				callbacks.get(o.eClass()).forEach(c -> c.accept(o));
-			}
-		});
+		if ( ! EMOP.ctx().isActivated() )
+			return;
+	
+		if ( o.eClass() != null && o.eClass().getName() != null && o.eClass().getName().equals("Module")) {
+			
+			System.out.println(o);
+		}
+		if ( callbacks.containsKey(o.eClass())) {
+			callbacks.get(o.eClass()).forEach(c -> c.accept(o));
+		}
 	}
 
 }
