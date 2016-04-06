@@ -11,8 +11,12 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
 import mop.emf.annotations.GlobalLibrary;
@@ -46,9 +50,10 @@ import mop.emf.libraries.resourcetype.ResourceType;
  */
 public class TypeObjectLibrary extends GlobalLibrary {
 	
-	public static final String TYPE_ANN     = "http://emop/typeobj/type";
-	public static final String TYPE_PKG_ANN = "http://emop/typeobj/package";
-	
+	public static final String TYPE_ANN       = "http://emop/typeobj/type";
+	public static final String TYPE_PKG_ANN   = "http://emop/typeobj/package";
+	public static final String FEAT_LEVEL_ANN = "http://emop/typeobj/next_level";
+	 
 	
 	@Override
 	public void process(EMOP mop) {
@@ -68,30 +73,25 @@ public class TypeObjectLibrary extends GlobalLibrary {
 			return;
 		}
 		
-		if ( m.getPackages().size() > 1 ) 
-			throw new UnsupportedOperationException("Promotions with more than one meta-model not supported");
-		if ( m.getPackages().isEmpty() ) {
+		EPackage pkg = findPromotedPackage(m.getPackages());
+		if ( pkg == null ) {
 			// It is likely that the model is just empty
 			// (or the ResourceType library has not worked...) 
 			return;
 		}		
 		
-		EPackage pkg = m.getPackages().get(0);
 		EAnnotation ann = extractAnnotation(pkg, TYPE_PKG_ANN);
-		if ( ann == null ) {
-			// It is not annotated
-			return;
-		}
-
-		String name = ann.getDetails().get("name");		
-		String uri  = ann.getDetails().get("uri");
-		String prefix = "prefix_" + name;
+		String annName = ann.getDetails().get("name");		
+		String annUri  = ann.getDetails().get("uri");
 		
-		EPackage pkgInstance = EcoreFactory.eINSTANCE.createEPackage();
-		pkgInstance.setName(name);
-		pkgInstance.setNsURI(uri);
-		pkgInstance.setNsPrefix(prefix);
+		
+		String name = null;
+		String uri  = null;
+		String prefix  = null;
+		EStructuralFeature promotedPkgNameFeature = parseEStructuralFeature(pkg, annName);
+	
 
+		// Traverse the model to find relevan information
 		ArrayList<EObject> typeObjects = new ArrayList<EObject>();
 		TreeIterator<EObject> it = r.getAllContents();
 		while ( it.hasNext() ) {
@@ -100,21 +100,57 @@ public class TypeObjectLibrary extends GlobalLibrary {
 			extractAnnotations(c, TYPE_ANN, (_me, _ann) -> {
 				typeObjects.add(o);
 			});
+			
+			// Find the feature to set the name of the package
+			if ( c.getEStructuralFeatures().contains(promotedPkgNameFeature) ) {
+				name = (String) o.eGet(promotedPkgNameFeature);
+				// assument uri == "auto"
+				uri    = "http://emop/" + name;
+				prefix = name;
+			}
 		}
+
+		if ( name == null )
+			throw new IllegalStateException("No object for feature " + annName + " found");
+		
+		EPackage pkgInstance = EcoreFactory.eINSTANCE.createEPackage();
+		pkgInstance.setName(name);
+		pkgInstance.setNsURI(uri);
+		pkgInstance.setNsPrefix(prefix);
+
+		// Create a root class
+		EClass rootClass = EcoreFactory.eINSTANCE.createEClass();
+		rootClass.setName(name);
+		pkgInstance.getEClassifiers().add(rootClass);
+
 		
 		// Create the meta-classes
 		for (EObject to : typeObjects) {
 			EAnnotation toAnn  = extractAnnotation(to.eClass(), TYPE_ANN);
 			String featureName = toAnn.getDetails().get("fid");
 			
-			String className = to.eGet(to.eClass().getEStructuralFeature(featureName)).toString();
-			EClass classInstance = EcoreFactory.eINSTANCE.createEClass();
-			classInstance.setName(className);
-			
-			pkgInstance.getEClassifiers().add(classInstance);
+			Object v = to.eGet(to.eClass().getEStructuralFeature(featureName));
+			if ( v != null ) {
+				String className = v.toString();
+				EClass classInstance = EcoreFactory.eINSTANCE.createEClass();
+				classInstance.setName(className);
+	
+				// create reference in the root class
+				EReference ref = EcoreFactory.eINSTANCE.createEReference();
+				ref.setName(getRootClassRefFeatureName(className));
+				ref.setUpperBound(-1);
+				ref.setEType(classInstance);
+				ref.setContainment(true);
+				rootClass.getEStructuralFeatures().add(ref);
+				
+				// set up features that must be instantiated in the next level
+				createFeatures(to, classInstance);
+				
+				pkgInstance.getEClassifiers().add(classInstance);
+			}
 		}
 		
-		URI metamodelURI = r.getURI().appendFileExtension(".ecore");
+		URI metamodelURI = r.getURI().appendFileExtension("ecore");
 		Resource newResource = new EcoreResourceFactoryImpl().createResource(metamodelURI);
 		newResource.getContents().add(pkgInstance);
 		try {
@@ -126,6 +162,51 @@ public class TypeObjectLibrary extends GlobalLibrary {
 		}
 	}
 	
+	private EPackage findPromotedPackage(List<EPackage> packages) {
+		for (EPackage pkg : packages) {
+			EAnnotation ann = extractAnnotation(pkg, TYPE_PKG_ANN);
+			if ( ann != null ) {
+				return pkg;
+			}			
+		}
+		return null;
+	}
+
+	private String getRootClassRefFeatureName(String className) {	
+		String name = className.substring(0, 1).toLowerCase() + className.substring(1);
+		if ( ! name.endsWith("s") )
+			name = name + "s";
+		return name;
+	}
+
+	private void createFeatures(EObject typeObject, EClass classInstance) {
+		EClass typeAnnClass = typeObject.eClass();
+		
+		// Copy features with "potency" 
+		for (EStructuralFeature f : typeAnnClass.getEAllStructuralFeatures()) {
+			EAnnotation ann = extractAnnotation(f, FEAT_LEVEL_ANN);
+			if ( ann != null ) {
+				EStructuralFeature newFeature = EcoreUtil.copy(f);
+				newFeature.getEAnnotations().clear();
+				classInstance.getEStructuralFeatures().add(newFeature);
+			}
+		}
+		
+		// If the typeAnnClass inherits from EClass then it can define linguistic extensions.
+		// Every feature defined in classInstance must be copied to allow its setting in the next level
+		// if ( typeAnnClass.getEAllSuperTypes().contains(EcorePackage.Literals.ECLASS))
+		if ( EcorePackage.Literals.ECLASS.isInstance(typeObject) ) {
+			for (EObject eobj : typeObject.eContents()) {
+				if ( eobj instanceof EStructuralFeature ) {
+					EStructuralFeature newFeature = (EStructuralFeature) EcoreUtil.copy(eobj);
+					classInstance.getEStructuralFeatures().add(newFeature);					
+				}
+			}
+		}
+		
+		
+	}
+
 	@Override
 	public List<Class<?>> dependences() {
 		return Collections.singletonList(ResourceType.class);

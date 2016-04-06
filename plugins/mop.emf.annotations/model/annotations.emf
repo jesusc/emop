@@ -1,0 +1,82 @@
+@"http://emop/typeobj/package"(name="AnnotationSpec.name", uri="auto")
+@namespace(uri="http://emop/libraries/annotations", prefix="lib_annotations")
+package annotations;
+
+class AnnotationSpec {
+    attr String[1] name;
+    attr String[0..1] description;
+	val Annotation[*] annotations;
+}
+
+abstract class Annotation extends ecore.EClass {
+ attr String[1] annId;
+ attr String[1] uri;
+ 
+ /* reqs@1   : Annotation[*]; */
+ /* forbids@1: Annotation[*]; */
+ ref Annotation[*] reqs;
+ ref Annotation[*] forbids;
+ 
+ /*  target@(2)  : Node[0..1]; */
+
+ @"http://emop/typeobj/next_level"
+ ref EObject[0..1] target;
+ 
+ /* applicPotency@1 : int = 0; */
+
+ val SemanticAction[*] semanticHooks;
+}
+
+/* This does not map well to EMF. 
+   We consider the model the root element (which can be package in a meta-model or an object in a model)
+ */
+ @"http://emop/typeobj/type"(fid="annId")
+class ModelAnnotation extends Annotation {
+	
+}
+
+/* Not sure if this is possible in bare EMF */
+class ObjectAnnotation extends Annotation {
+	
+}
+
+@"http://emop/typeobj/type"(fid="annId")
+class ClassAnnotation extends Annotation {
+	
+}
+
+@"http://emop/typeobj/type"(fid="annId")
+class FieldAnnotation extends Annotation {
+		
+}
+
+
+abstract class SemanticAction {
+  /* 
+       execPoint@1 : When[0..1];
+      level@1     : int = 0;   // 0 means at this level, 1 one level down, 2 two levels down, etc
+      trigger@1   : Event = verify;   
+      target@(2)  : Node[0..1];
+      actionCodeFile@1 : String;      
+      annotations@1  : Annotation[*];
+  
+  */	
+  attr When[*] execPoint;
+}
+
+class JavaCode extends SemanticAction {
+	attr String[1] className;
+}
+
+/*
+enum When  { post, pre }   
+   enum Event { create, delete, write, read, connect, disconnect, verify, createModel }
+ */
+enum When {
+	CREATE_MODEL;	
+	LOAD_MODEL;
+	
+}
+
+
+   
