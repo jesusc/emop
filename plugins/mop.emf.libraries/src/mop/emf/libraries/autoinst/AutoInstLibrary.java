@@ -48,7 +48,6 @@ public class AutoInstLibrary extends MetamodelLibrary {
 				EClass container = (EClass) c.getEPackage().getEClassifier(parts[0]);
 				EStructuralFeature feature = container.getEStructuralFeature(parts[1]);
 				
-				
 				emop.onInstantiate(container, (obj) -> {
 					EObject newInstance = EcoreUtil.create(c);
 					setFeatures(ann, c, newInstance);
