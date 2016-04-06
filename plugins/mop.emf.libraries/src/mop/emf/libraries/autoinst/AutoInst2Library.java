@@ -8,6 +8,7 @@ import mop.emf.core.EMOP;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -16,36 +17,35 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-public class AutoInstLibrary extends MetamodelLibrary {
+public class AutoInst2Library extends MetamodelLibrary {
 	public static String CLASS_ANN_URI = "http://autoinst";
-	private String fileExtension;
+	private String extension;
 	
-	
-	public AutoInstLibrary() {
+	public AutoInst2Library(String extension) {
+		this.extension = extension;
 	}
 	
-	public AutoInstLibrary(String fileExtension) {
-		this.fileExtension = fileExtension;
-	}
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void process(Resource metamodel) {
 		EMOP emop = EMOP.global();
 		EPackage pkg = (EPackage) metamodel.getContents().get(0);
-		System.out.println("Autoinst: " + pkg.getName());
+		
 		extractEAnnotations(metamodel, "http://autoinst", (m, ann) -> {
 			if ( ! ( m instanceof EClass) ) {
 				System.err.println("Annotation only for Eclass");
 				return;
 			}
-
-			EClass c = (EClass) m;
 			
-			// For annotations with "set"
+			EClass c = (EClass) m;
+
+			
 			String field = ann.getDetails().get("set");
-			if ( field != null ) {				
-				EStructuralFeature feature = parseEStructuralFeature(c.getEPackage(), field);
-				EClass container = feature.getEContainingClass();
+			if ( field != null ) {
+				String[] parts = field.split("\\.");
+				EClass container = (EClass) c.getEPackage().getEClassifier(parts[0]);
+				EStructuralFeature feature = container.getEStructuralFeature(parts[1]);
+				
 				
 				emop.onInstantiate(container, (obj) -> {
 					EObject newInstance = EcoreUtil.create(c);
@@ -53,40 +53,45 @@ public class AutoInstLibrary extends MetamodelLibrary {
 
 					if ( feature.isMany() ) {
 						((Collection<EObject>) obj.eGet(feature)).add(newInstance);
-
-						// System.out.println(obj + " has " + ((Collection<EObject>) obj.eGet(feature)));
-						// System.out.println(newInstance);
+						System.out.println(newInstance);
 					} else {
 						obj.eSet(feature, newInstance);
 					}
 					
 					// Need to indicate that this has alredy been set
 				});
-				return;
 			}
 			
 			
-			// For annotations whose new instances will go to the resource directly
-			emop.onModelCreate(pkg.getNsURI()).
-				after((rs, p, r) -> {					
-					EObject obj = EcoreUtil.create(c);
-					r.getContents().add(obj);
-					
-					setFeatures(ann, c, obj);
-				});
+			//			emop.onModelCreate(pkg.getNsURI()).
+//				after((rs, p, r) -> {					
+//					EObject obj = EcoreUtil.create(c);
+//					r.getContents().add(obj);
+//					
+//					setFeatures(ann, c, obj);
+//				});
 			
-			emop.onModelLoad().
-			filter(r -> fileExtension == null ? true : r.getURI().fileExtension().equals(fileExtension) ).
+	
+		emop.onModelLoad().
+			//filter(r -> r.getURI().fileExtension().equals(extension) ).
 			before(r -> {	
 				System.out.println(r);
-				System.out.println(r.getResourceSet());
-				System.out.println(r.getResourceSet().getResources());
-				
-				EObject obj = EcoreUtil.create(c);
-				r.getContents().add(obj);
-				
-				setFeatures(ann, c, obj);
+				System.out.println(r.getContents());
 			});
+
+			
+//			emop.onModelLoad().
+//				filter(r -> r.getURI().fileExtension().equals(extension) ).
+//				before(r -> {	
+//					System.out.println(r);
+//					System.out.println(r.getResourceSet());
+//					System.out.println(r.getResourceSet().getResources());
+//
+//					EObject obj = EcoreUtil.create(c);
+//					r.getContents().add(obj);
+//
+//					setFeatures(ann, c, obj);
+//				});
 		});
 	}
 

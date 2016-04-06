@@ -12,7 +12,9 @@ class AnnotationSpec {
 abstract class Annotation {
  /* reqs@1   : Annotation[*]; */
  /* forbids@1: Annotation[*]; */
- 
+ ref Annotation[*] reqs;
+ ref Annotation[*] forbids;
+  
  /*  target@(2)  : Node[0..1]; */
  ref EObject[0..1] target;
  
@@ -22,8 +24,9 @@ abstract class Annotation {
 	
 }
 
+
 /* This does not map well to EMF. 
-   We consider a Resource as the model.
+   We consider the model the root element (which can be package in a meta-model or an object in a model)
  */
 class ModelAnnotation extends Annotation {
 	
@@ -53,8 +56,9 @@ abstract class SemanticAction {
       actionCodeFile@1 : String;      
       annotations@1  : Annotation[*];
   
-  */	
-  attr When[*] execPoint;
+  */
+  attr Event[1] event;	
+  attr When[1] execPoint;
 }
 
 class JavaCode extends SemanticAction {
@@ -66,8 +70,18 @@ enum When  { post, pre }
    enum Event { create, delete, write, read, connect, disconnect, verify, createModel }
  */
 enum When {
+   PRE; 
+   POST; 
+   AROUND;
+}
+
+enum Event {
 	CREATE_MODEL;	
+	LOAD_MODEL;
+    INSTANTIATE;
+    VERIFY;
 }
 
 
+   
    

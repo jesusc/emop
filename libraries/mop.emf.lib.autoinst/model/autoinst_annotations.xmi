@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<lib_annotations:AnnotationSpec
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:lib_annotations="http://emop/libraries/annotations"
+    xsi:schemaLocation="http://emop/libraries/annotations ../../mop.emf.annotations/model/annotations.ecore"
+    name="AutoInstLib"
+    description="Facility to automatically instantiate certain annotated elements">
+  <annotations
+      xsi:type="lib_annotations:ModelAnnotation"
+      annId="AutoInstantiable"
+      uri="http://emop/autoinstantiable"/>
+  <annotations
+      xsi:type="lib_annotations:ClassAnnotation"
+      annId="AutoInst"
+      uri="http://emop/autoinst"
+      reqs="//@annotations.0">
+    <eStructuralFeatures
+        xsi:type="ecore:EAttribute"
+        name="name">
+      <eType
+          xsi:type="ecore:EDataType"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures
+        xsi:type="ecore:EReference"
+        name="set">
+      <eType
+          xsi:type="ecore:EClass"
+          href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+    </eStructuralFeatures>
+  </annotations>
+</lib_annotations:AnnotationSpec>
