@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import mop.emf.core.EMOP;
 import mop.emf.core.api.EMOPValidate;
 import mop.emf.util.InternalUtil;
 
@@ -38,6 +39,8 @@ public aspect ExtendValidation {
 		call(BasicDiagnostic.new(..)) {
 		
 		BasicDiagnostic original = proceed();
+		if ( ! EMOP.ctx().isActivated() )
+			return original;
 		return new MyBasicDiagnostic(original);
 		// return original;
 	}

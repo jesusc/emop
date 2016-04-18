@@ -1,6 +1,18 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: mop.emf.lib.autoinst
-Bundle-SymbolicName: mop.emf.lib.autoinst; singleton:=true
+Bundle-Name: %pluginName
+Bundle-SymbolicName: mop.emf.lib.autoinst;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: mop.emf.lib.AutoInstLib,
+ mop.emf.lib.AutoInstLib.impl,
+ mop.emf.lib.AutoInstLib.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ mop.emf.core;bundle-version="1.0.0",
+ mop.emf.annotations;bundle-version="0.1.0",
+ mop.emf.ui;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy

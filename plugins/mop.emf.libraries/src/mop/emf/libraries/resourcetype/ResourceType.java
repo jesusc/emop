@@ -45,7 +45,7 @@ public class ResourceType extends GlobalLibrary {
 			@Override
 			public void notifyChanged(Notification notification) {
 				super.notifyChanged(notification);
-				if ( notification.getEventType() == Notification.ADD ) { // check ADD_MANY??
+				if ( notification.getEventType() == Notification.ADD && notification.getNewValue() instanceof EObject ) { // check ADD_MANY??
 					Metamodel mm = ModelIndex.instance().getMetamodelOf(r);
 					EObject  obj = (EObject) notification.getNewValue();  
 					mm.addClass(obj.eClass());

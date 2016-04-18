@@ -21,6 +21,9 @@ abstract class Annotation extends ecore.EClass {
 
  @"http://emop/typeobj/next_level"
  ref EObject[0..1] target;
+
+ @"http://emop/typeobj/next_level"
+ ref ecore.EAnnotation[0..1] originalAnnotation;
  
  /* applicPotency@1 : int = 0; */
 

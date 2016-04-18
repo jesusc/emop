@@ -43,17 +43,10 @@ public class AutoInstLibrary extends MetamodelLibrary {
 			
 			// For annotations with "set"
 			String field = ann.getDetails().get("set");
-<<<<<<< HEAD
-			if ( field != null ) {
-				String[] parts = field.split("\\.");
-				EClass container = (EClass) c.getEPackage().getEClassifier(parts[0]);
-				EStructuralFeature feature = container.getEStructuralFeature(parts[1]);
-=======
 			if ( field != null ) {				
 				EStructuralFeature feature = parseEStructuralFeature(c.getEPackage(), field);
 				EClass container = feature.getEContainingClass();
->>>>>>> 71654a146a5a03222ca80c42cad4716f13faf7e9
-				
+
 				emop.onInstantiate(container, (obj) -> {
 					EObject newInstance = EcoreUtil.create(c);
 					setFeatures(ann, c, newInstance);

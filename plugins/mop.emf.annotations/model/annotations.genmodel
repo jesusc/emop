@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/mop.emf.annotations/src-gen" modelPluginID="mop.emf.annotations"
+    modelName="Annotations" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>annotations.ecore</foreignModel>
+  <genPackages prefix="Annotations" basePackage="mop.emf" disposableProviderFactory="true"
+      ecorePackage="annotations.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="annotations.ecore#//When">
+      <genEnumLiterals ecoreEnumLiteral="annotations.ecore#//When/CREATE_MODEL"/>
+      <genEnumLiterals ecoreEnumLiteral="annotations.ecore#//When/LOAD_MODEL"/>
+    </genEnums>
+    <genClasses ecoreClass="annotations.ecore#//AnnotationSpec">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//AnnotationSpec/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//AnnotationSpec/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference annotations.ecore#//AnnotationSpec/annotations"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="annotations.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//Annotation/annId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//Annotation/uri"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference annotations.ecore#//Annotation/reqs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference annotations.ecore#//Annotation/forbids"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference annotations.ecore#//Annotation/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference annotations.ecore#//Annotation/originalAnnotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference annotations.ecore#//Annotation/semanticHooks"/>
+    </genClasses>
+    <genClasses ecoreClass="annotations.ecore#//ModelAnnotation"/>
+    <genClasses ecoreClass="annotations.ecore#//ObjectAnnotation"/>
+    <genClasses ecoreClass="annotations.ecore#//ClassAnnotation"/>
+    <genClasses ecoreClass="annotations.ecore#//FieldAnnotation"/>
+    <genClasses image="false" ecoreClass="annotations.ecore#//SemanticAction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//SemanticAction/execPoint"/>
+    </genClasses>
+    <genClasses ecoreClass="annotations.ecore#//JavaCode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//JavaCode/className"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

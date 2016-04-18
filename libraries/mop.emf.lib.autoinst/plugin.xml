@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated autoinst_annotations.xmi -->
+      <package
+            uri="http://emop/AutoInstLib"
+            class="mop.emf.lib.AutoInstLib.AutoInstLibPackage"
+            genModel="model/autoinst_annotations.xmi.genmodel"/>
+   </extension>
+   <extension
+         point="mop.emf.ui.installLibrary">
+      <Library
+            implementation="mop.emf.lib.AutoInstLib.AutomaticInstantiationLib"
+            name="mop.emf.lib.autoinst.Library1">
+      </Library>
+   </extension>
+
+</plugin>

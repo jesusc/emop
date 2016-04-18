@@ -6,12 +6,4 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated annotations -->
-      <package
-            uri="http://emop/annotations"
-            class="mop.emf.annotations.AnnotationsPackage"
-            genModel="model/annotations.genmodel"/>
-   </extension>
-
 </plugin>

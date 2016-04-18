@@ -20,6 +20,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
       <eAnnotations source="http://emop/typeobj/next_level"/>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originalAnnotation" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAnnotation">
+      <eAnnotations source="http://emop/typeobj/next_level"/>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="semanticHooks" upperBound="-1"
         eType="#//SemanticAction" containment="true"/>
   </eClassifiers>

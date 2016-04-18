@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated annotations -->
+      <package
+            uri="http://emop/libraries/annotations"
+            class="mop.emf.annotations.AnnotationsPackage"
+            genModel="model/annotations.genmodel"/>
+   </extension>
+
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            id="mop.emf.annotations.ui.contribution1">
+         <menu
+               label="EMF MOP"
+               path="additions"
+               id="emop.ui.menu">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Generate library"
+               class="mop.emf.annotations.ui.GenerateAnnotationCode"
+               menubarPath="emop.ui.menu/group1"
+               enablesFor="1"
+               id="mop.emf.annotations.ui.GenerateAnnotationCode">
+         </action>
+      </objectContribution>
+   </extension>
+
+
+</plugin>
